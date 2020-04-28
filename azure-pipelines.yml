@@ -15,12 +15,12 @@ stages:
     jobs:
       - job: hello
         steps:
-          - task: PowerShell@1
+          - task: Bash@3
             displayName: echo hello
             inputs:
-              scriptType: inlineScript
-              inlineScript: >
-                Write-Host "Hello World!"
+              targetType: inline
+              script: >
+                echo "Hello World!"
             condition: always()
   - stage: release
     displayName: Release
@@ -28,10 +28,10 @@ stages:
     jobs:
       - job: hello
         steps:
-          - task: PowerShell@1
+          - task: Bash@3
             displayName: echo hello
             inputs:
-              scriptType: inlineScript
-              inlineScript: >
-                Write-Host "Hello World!"
+              targetType: inline
+              script: >
+                echo "Hello World!"
             condition: always()
