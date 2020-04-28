@@ -1,0 +1,37 @@
+trigger:
+  branches:
+    include:
+      - adf_publish
+    exclude:
+      - dev
+      - feature/*
+
+pool:
+  vmImage: "ubuntu-18.04"
+
+stages:
+  - stage: build
+    displayName: Build
+    jobs:
+      - job: hello
+        steps:
+          - task: PowerShell@1
+            displayName: echo hello
+            inputs:
+              scriptType: inlineScript
+              inlineScript: >
+                Write-Host "Hello World!"
+            condition: always()
+  - stage: release
+    displayName: Release
+    condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/adf_publish'))
+    jobs:
+      - job: hello
+        steps:
+          - task: PowerShell@1
+            displayName: echo hello
+            inputs:
+              scriptType: inlineScript
+              inlineScript: >
+                Write-Host "Hello World!"
+            condition: always()
