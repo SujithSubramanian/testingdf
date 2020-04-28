@@ -10,18 +10,6 @@ pool:
   vmImage: "ubuntu-18.04"
 
 stages:
-  - stage: build
-    displayName: Build
-    jobs:
-      - job: hello
-        steps:
-          - task: Bash@3
-            displayName: echo hello
-            inputs:
-              targetType: inline
-              script: >
-                echo "Hello World!"
-            condition: always()
   - stage: release
     displayName: Release
     condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/adf_publish'))
@@ -35,3 +23,14 @@ stages:
               script: >
                 echo "Hello World!"
             condition: always()
+          - task: AzureResourceGroupDeployment@2
+            inputs:
+              azureSubscription: "AZ-AS-SUB-EX-N-SEQ00035-ITY-Sandbox(94d67791-6e06-4f77-bc46-0b862e8aeb03)"
+              action: "Create Or Update Resource Group"
+              resourceGroupName: "sbox-adamadf-dev-rg"
+              location: "West Europe"
+              templateLocation: "Linked artifact"
+              csmFile: "$(Build.SourcesDirectory)/adamtestdf1/ARMTemplateForFactory.json"
+              csmParametersFile: "$(Build.SourcesDirectory)/adamtestdf1/ARMTemplateParametersForFactory.json"
+              overrideParameters: "-factoryName adamtestadf2"
+              deploymentMode: "Incremental"
