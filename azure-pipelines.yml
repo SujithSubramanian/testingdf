@@ -25,7 +25,7 @@ stages:
             condition: always()
           - task: AzureResourceGroupDeployment@2
             inputs:
-              azureSubscription: "AZ-AS-SUB-EX-N-SEQ00035-ITY-Sandbox(94d67791-6e06-4f77-bc46-0b862e8aeb03)"
+              azureSubscription: "AZ-AS-SUB-EX-N-SEQ00035-ITY-Sandbox (94d67791-6e06-4f77-bc46-0b862e8aeb03)"
               action: "Create Or Update Resource Group"
               resourceGroupName: "sbox-adamadf-dev-rg"
               location: "West Europe"
